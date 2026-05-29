@@ -41,12 +41,10 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: [
-      "https://starvnt-entertainment.vercel.app", // Your live Vercel frontend
-      "http://localhost:5173"                     // Your local development frontend
+      "https://starvnt-entertainment.vercel.app", // No trailing slashes
+      "http://localhost:5173"
     ],
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
