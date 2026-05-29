@@ -37,18 +37,13 @@ const allowedOrigins = [
   "http://localhost:5173"  // Whitelist your local Vite development environment
 ];
 
+// 1. CORS (Cross-Origin Resource Sharing) - Bulletproof Version
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Allow server-to-server testing tools, Postman, or requests with missing origin headers
-      if (!origin) return callback(null, true);
-      
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg = "The CORS policy for this site does not allow access from the specified Origin.";
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    },
+    origin: [
+      "https://starvnt-entertainment.vercel.app", // Your live Vercel frontend
+      "http://localhost:5173"                     // Your local development frontend
+    ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
