@@ -1,6 +1,3 @@
-// pages/Dashboard.jsx
-// The main dashboard page shown after login.
-// Displays 3 summary stat cards and a recent activity feed.
 
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,7 +6,6 @@ import api from "../api/axios.js";
 import StatCard from "../components/ui/StatCard.jsx";
 import Badge from "../components/ui/Badge.jsx";
 
-// --- Icon Components ---
 const InboxIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
@@ -40,13 +36,11 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // --- Fetch Dashboard Data ---
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await api.get("/inquiries");
-        
-        // Defensive check: if proxy fails and returns HTML, response.data will not have inquiries
+
         if (!response.data || !response.data.inquiries) {
           throw new Error("Invalid API response. Server might be down or proxy failed.");
         }
@@ -66,7 +60,6 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  // --- Format Date ---
   const formatDate = (dateString) =>
     new Date(dateString).toLocaleDateString("en-IN", {
       day: "numeric",
@@ -103,7 +96,7 @@ const Dashboard = () => {
 
   return (
     <div style={{ maxWidth: "1200px" }}>
-      {/* --- Welcome Header --- */}
+      {}
       <div style={{ marginBottom: "28px" }}>
         <h2
           style={{
@@ -120,8 +113,8 @@ const Dashboard = () => {
         </p>
       </div>
 
-      {/* --- Stat Cards Grid --- */}
-      {/* CSS Grid: 3 equal columns on desktop, 1 on mobile */}
+      {}
+      {}
       <div
         style={{
           display: "grid",
@@ -130,12 +123,7 @@ const Dashboard = () => {
           marginBottom: "32px",
         }}
       >
-        {/*
-          Wrapping each StatCard in a <Link> makes the whole card clickable.
-          We use 'style={{ textDecoration: "none" }}' so the Link doesn't add underlines.
-          useNavigate() is used for the trend link inside StatCard — but the whole card
-          navigates via the <Link> wrapper.
-        */}
+        {}
         <Link to="/inquiries" style={{ textDecoration: "none" }}>
           <StatCard
             title="Total Inquiries"
@@ -170,7 +158,7 @@ const Dashboard = () => {
         </Link>
       </div>
 
-      {/* --- Recent Activity --- */}
+      {}
       <div
         style={{
           backgroundColor: "var(--color-surface)",
@@ -179,7 +167,7 @@ const Dashboard = () => {
           overflow: "hidden",
         }}
       >
-        {/* Section Header */}
+        {}
         <div
           style={{
             padding: "18px 24px",
@@ -193,12 +181,7 @@ const Dashboard = () => {
             Recent Activity
           </h3>
 
-          {/*
-            FIX: Changed from <a href="/inquiries"> to <Link to="/inquiries">.
-            <a href="..."> causes a full page reload (browser navigation).
-            <Link to="..."> is react-router's SPA navigation — no page reload,
-            faster, and preserves React state.
-          */}
+          {}
           <Link
             to="/inquiries"
             style={{
@@ -217,7 +200,7 @@ const Dashboard = () => {
           </Link>
         </div>
 
-        {/* Activity List */}
+        {}
         {recentInquiries.length === 0 ? (
           <div style={{ padding: "48px 24px", textAlign: "center", color: "var(--color-text-muted)" }}>
             <p style={{ fontSize: "24px", marginBottom: "12px" }}>📭</p>
@@ -265,7 +248,7 @@ const Dashboard = () => {
                   (e.currentTarget.style.backgroundColor = "transparent")
                 }
               >
-                {/* Client Avatar + Name */}
+                {}
                 <div style={{ display: "flex", alignItems: "center", gap: "12px", minWidth: 0 }}>
                   <div
                     style={{
@@ -303,7 +286,7 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                {/* Status Badge */}
+                {}
                 <Badge status={inquiry.status} size="sm" />
               </li>
             ))}
@@ -314,7 +297,6 @@ const Dashboard = () => {
   );
 };
 
-// Helper: returns a time-of-day greeting
 function getGreeting() {
   const hour = new Date().getHours();
   if (hour < 12) return "morning";

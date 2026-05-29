@@ -1,14 +1,3 @@
-// components/ui/StatCard.jsx
-// A reusable summary card component for the Dashboard.
-// Shows an icon, a label, a value, and an optional change indicator.
-//
-// Props:
-//   - title: string (e.g., "Total Inquiries")
-//   - value: string | number (e.g., "24")
-//   - subtitle: string (e.g., "All time bookings")
-//   - icon: JSX element (SVG icon)
-//   - color: string (CSS color for the icon background tint)
-//   - trend: string (optional, e.g., "+3 this week")
 
 const StatCard = ({ title, value, subtitle, icon, color = "#6366f1", trend }) => {
   return (
@@ -33,7 +22,7 @@ const StatCard = ({ title, value, subtitle, icon, color = "#6366f1", trend }) =>
         e.currentTarget.style.boxShadow = "none";
       }}
     >
-      {/* Top row: title + icon */}
+      {}
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
         <p
           style={{
@@ -46,7 +35,7 @@ const StatCard = ({ title, value, subtitle, icon, color = "#6366f1", trend }) =>
         >
           {title}
         </p>
-        {/* Icon with colored background */}
+        {}
         <div
           style={{
             width: "40px",
@@ -64,7 +53,7 @@ const StatCard = ({ title, value, subtitle, icon, color = "#6366f1", trend }) =>
         </div>
       </div>
 
-      {/* Main Value */}
+      {}
       <div>
         <p
           style={{
@@ -84,7 +73,7 @@ const StatCard = ({ title, value, subtitle, icon, color = "#6366f1", trend }) =>
         )}
       </div>
 
-      {/* Trend Indicator */}
+      {}
       {trend && (
         <div
           style={{

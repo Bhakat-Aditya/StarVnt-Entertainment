@@ -1,20 +1,15 @@
-// models/model.inquiry.js
-// Defines the Inquiry schema.
-// An inquiry is a booking request submitted by a client to a vendor.
 
 import mongoose from "mongoose";
 
 const inquirySchema = new mongoose.Schema(
   {
-    // --- Relationship to VendorProfile ---
-    // Each inquiry is directed at a specific vendor profile.
+
     vendor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "VendorProfile",
       required: true,
     },
 
-    // --- Client (Requester) Information ---
     clientName: {
       type: String,
       required: [true, "Client name is required"],
@@ -30,7 +25,6 @@ const inquirySchema = new mongoose.Schema(
       trim: true,
     },
 
-    // --- Event Details ---
     eventDate: {
       type: Date,
       required: [true, "Event date is required"],
@@ -38,7 +32,7 @@ const inquirySchema = new mongoose.Schema(
     eventType: {
       type: String,
       trim: true,
-      // Examples: Wedding, Corporate, Birthday, Concert
+
     },
     message: {
       type: String,
@@ -46,9 +40,6 @@ const inquirySchema = new mongoose.Schema(
       maxlength: [1000, "Message cannot exceed 1000 characters"],
     },
 
-    // --- Inquiry Status (Workflow) ---
-    // The status follows a simple linear workflow:
-    // New → Contacted → Confirmed → Rejected
     status: {
       type: String,
       enum: {

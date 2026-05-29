@@ -1,13 +1,4 @@
-// components/ui/Badge.jsx
-// A reusable status badge component.
-// Renders a colored pill label based on the inquiry status value.
-//
-// Props:
-//   - status: "New" | "Contacted" | "Confirmed" | "Rejected"
-//   - size: "sm" | "md" (optional, defaults to "md")
 
-// Map each status to its display color
-// These match the CSS variables defined in index.css
 const statusStyles = {
   New: {
     bg: "rgba(6, 182, 212, 0.12)",      // cyan with transparency
@@ -32,7 +23,7 @@ const statusStyles = {
 };
 
 const Badge = ({ status, size = "md" }) => {
-  // Fall back to "New" style if an unrecognized status is passed
+
   const styles = statusStyles[status] || statusStyles["New"];
 
   const padding = size === "sm" ? "3px 8px" : "4px 10px";
@@ -54,7 +45,7 @@ const Badge = ({ status, size = "md" }) => {
         letterSpacing: "0.01em",
       }}
     >
-      {/* Pulsing dot to draw attention */}
+      {}
       <span
         style={{
           width: "6px",

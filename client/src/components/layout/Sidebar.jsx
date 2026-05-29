@@ -1,24 +1,6 @@
-// components/layout/Sidebar.jsx
-// Left navigation sidebar — permanently visible on desktop, a slide-in drawer on mobile.
-//
-// Props (from AppLayout):
-//   isOpen   — boolean, controls the mobile drawer open/closed state
-//   isMobile — boolean, true when viewport < 768px
-//   onClose  — function called when a NavLink is clicked (closes the drawer)
-//
-// ANIMATION STRATEGY:
-// We use CSS `transform: translateX()` to slide the sidebar in/out.
-// The sidebar is ALWAYS rendered in the DOM; we just move it off-screen.
-// This is more performant than mount/unmount and lets the transition play.
-//
-//   Hidden (mobile): translateX(-100%)  → off the left edge
-//   Visible:         translateX(0)      → in normal position
-//   Transition:      cubic-bezier gives a natural, springy feel
 
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
-
-// ── SVG Icons ────────────────────────────────────────────────────────────────
 
 const DashboardIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -48,27 +30,21 @@ const LogoutIcon = () => (
   </svg>
 );
 
-// ── Nav links config ─────────────────────────────────────────────────────────
-
 const navLinks = [
   { to: "/dashboard", label: "Dashboard", icon: <DashboardIcon /> },
   { to: "/profile", label: "Vendor Profile", icon: <ProfileIcon /> },
   { to: "/inquiries", label: "Inquiries", icon: <InquiryIcon /> },
 ];
 
-// ── Component ────────────────────────────────────────────────────────────────
-
 const Sidebar = ({ isOpen, isMobile, onClose }) => {
   const { user, logout } = useAuth();
 
-  // On desktop the sidebar is always visible (no translateX shift needed).
-  // On mobile we slide it in from the left.
   const translateX = isMobile ? (isOpen ? "translateX(0)" : "translateX(-100%)") : "translateX(0)";
 
   return (
     <aside
       style={{
-        // Layout
+
         width: "var(--sidebar-width)",
         height: "100vh",
         position: "fixed",
@@ -76,23 +52,19 @@ const Sidebar = ({ isOpen, isMobile, onClose }) => {
         left: 0,
         zIndex: 50,           // above backdrop (40) and topbar (39)
 
-        // Appearance
         backgroundColor: "var(--color-surface)",
         borderRight: "1px solid var(--color-border)",
         display: "flex",
         flexDirection: "column",
 
-        // Slide animation
         transform: translateX,
-        // cubic-bezier(0.4, 0, 0.2, 1) is Material Design's "standard" easing:
-        // fast acceleration at the start, gentle deceleration at the end.
+
         transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
 
-        // On mobile, cast a shadow so the drawer lifts above content
         boxShadow: isMobile && isOpen ? "4px 0 24px rgba(0,0,0,0.15)" : "none",
       }}
     >
-      {/* ── Brand ──────────────────────────────────────────────────────────── */}
+      {}
       <div
         style={{
           padding: "24px 20px",
@@ -101,7 +73,7 @@ const Sidebar = ({ isOpen, isMobile, onClose }) => {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          {/* Logo mark */}
+          {}
           <div
             style={{
               width: "34px",
@@ -132,7 +104,7 @@ const Sidebar = ({ isOpen, isMobile, onClose }) => {
         </div>
       </div>
 
-      {/* ── Navigation ─────────────────────────────────────────────────────── */}
+      {}
       <nav style={{ flex: 1, padding: "16px 12px", overflowY: "auto" }}>
         <p
           style={{
@@ -157,11 +129,7 @@ const Sidebar = ({ isOpen, isMobile, onClose }) => {
         >
           {navLinks.map((link) => (
             <li key={link.to}>
-              {/*
-                onClose is called when a link is clicked.
-                AppLayout's useEffect also closes on route change,
-                but calling onClose here gives instant visual feedback.
-              */}
+              {}
               <NavLink
                 to={link.to}
                 onClick={onClose}
@@ -187,7 +155,7 @@ const Sidebar = ({ isOpen, isMobile, onClose }) => {
         </ul>
       </nav>
 
-      {/* ── User info + logout ─────────────────────────────────────────────── */}
+      {}
       <div
         style={{
           padding: "16px 12px",
@@ -195,7 +163,7 @@ const Sidebar = ({ isOpen, isMobile, onClose }) => {
           flexShrink: 0,
         }}
       >
-        {/* User avatar + name */}
+        {}
         <div
           style={{
             display: "flex",
@@ -249,7 +217,7 @@ const Sidebar = ({ isOpen, isMobile, onClose }) => {
           </div>
         </div>
 
-        {/* Logout button */}
+        {}
         <button
           onClick={logout}
           style={{

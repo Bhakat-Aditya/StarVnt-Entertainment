@@ -1,12 +1,9 @@
-// pages/VendorProfile.jsx
-// Allows the logged-in vendor to view and edit their profile details.
-// Follows a read-then-edit pattern: view mode by default, edit mode on button click.
 
 import { useState, useEffect } from "react";
 import api from "../api/axios.js";
 
 const VendorProfile = () => {
-  // --- State ---
+
   const [profile, setProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({});
@@ -14,13 +11,12 @@ const VendorProfile = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
 
-  // --- Fetch Profile on Mount ---
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const response = await api.get("/vendor/profile");
         setProfile(response.data.profile);
-        // Pre-populate form with current values
+
         setFormData({
           vendorName: response.data.profile.vendorName || "",
           category: response.data.profile.category || "",
@@ -37,13 +33,11 @@ const VendorProfile = () => {
     fetchProfile();
   }, []);
 
-  // --- Handle Input Changes ---
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // --- Save Profile ---
   const handleSave = async (e) => {
     e.preventDefault();
     setIsSaving(true);
@@ -54,7 +48,7 @@ const VendorProfile = () => {
       setProfile(response.data.profile);
       setIsEditing(false);
       setMessage({ type: "success", text: "Profile updated successfully!" });
-      // Auto-clear the success message after 3 seconds
+
       setTimeout(() => setMessage({ type: "", text: "" }), 3000);
     } catch (error) {
       setMessage({
@@ -66,9 +60,8 @@ const VendorProfile = () => {
     }
   };
 
-  // --- Cancel Edit (restore original values) ---
   const handleCancel = () => {
-    // Reset form data back to what the profile currently has
+
     setFormData({
       vendorName: profile?.vendorName || "",
       category: profile?.category || "",
@@ -80,7 +73,6 @@ const VendorProfile = () => {
     setMessage({ type: "", text: "" });
   };
 
-  // --- Styles ---
   const inputStyle = {
     width: "100%",
     padding: "10px 14px",
@@ -110,7 +102,7 @@ const VendorProfile = () => {
 
   return (
     <div style={{ maxWidth: "720px" }}>
-      {/* --- Page Header --- */}
+      {}
       <div
         style={{
           display: "flex",
@@ -130,7 +122,7 @@ const VendorProfile = () => {
           </p>
         </div>
 
-        {/* Edit / Cancel Buttons */}
+        {}
         {!isEditing ? (
           <button
             onClick={() => setIsEditing(true)}
@@ -169,7 +161,7 @@ const VendorProfile = () => {
         )}
       </div>
 
-      {/* --- Success / Error Message --- */}
+      {}
       {message.text && (
         <div
           style={{
@@ -186,7 +178,7 @@ const VendorProfile = () => {
         </div>
       )}
 
-      {/* --- Profile Card --- */}
+      {}
       <div
         style={{
           backgroundColor: "var(--color-surface)",
@@ -195,7 +187,7 @@ const VendorProfile = () => {
           overflow: "hidden",
         }}
       >
-        {/* Profile Header with Avatar */}
+        {}
         <div
           style={{
             padding: "28px 32px",
@@ -236,7 +228,7 @@ const VendorProfile = () => {
           </div>
         </div>
 
-        {/* --- Profile Form --- */}
+        {}
         <form onSubmit={handleSave} style={{ padding: "28px 32px" }}>
           <div
             style={{
@@ -245,7 +237,7 @@ const VendorProfile = () => {
               gap: "20px",
             }}
           >
-            {/* Vendor / Business Name */}
+            {}
             <div>
               <label style={labelStyle}>Business Name</label>
               <input
@@ -261,7 +253,7 @@ const VendorProfile = () => {
               />
             </div>
 
-            {/* Category */}
+            {}
             <div>
               <label style={labelStyle}>Category</label>
               {isEditing ? (
@@ -288,7 +280,7 @@ const VendorProfile = () => {
               )}
             </div>
 
-            {/* Location */}
+            {}
             <div>
               <label style={labelStyle}>Location / City</label>
               <input
@@ -304,7 +296,7 @@ const VendorProfile = () => {
               />
             </div>
 
-            {/* Contact */}
+            {}
             <div>
               <label style={labelStyle}>Contact Number</label>
               <input
@@ -320,7 +312,7 @@ const VendorProfile = () => {
               />
             </div>
 
-            {/* Bio — full width */}
+            {}
             <div style={{ gridColumn: "1 / -1" }}>
               <label style={labelStyle}>
                 Bio{" "}
@@ -347,7 +339,7 @@ const VendorProfile = () => {
             </div>
           </div>
 
-          {/* Save Button — only in edit mode */}
+          {}
           {isEditing && (
             <div style={{ marginTop: "24px", display: "flex", gap: "12px" }}>
               <button
@@ -393,7 +385,6 @@ const VendorProfile = () => {
   );
 };
 
-// Reusable label style object
 const labelStyle = {
   display: "block",
   fontSize: "13px",

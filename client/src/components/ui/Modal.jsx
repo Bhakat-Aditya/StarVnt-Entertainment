@@ -1,26 +1,10 @@
-// components/ui/Modal.jsx
-// A generic, reusable modal overlay component.
-//
-// HOW IT WORKS:
-// - Renders a dark semi-transparent backdrop over the entire page.
-// - Centers the modal content inside.
-// - Closes when clicking the backdrop (not the content itself).
-// - Supports a close button in the header.
-//
-// Props:
-//   - isOpen: boolean — controls visibility
-//   - onClose: function — called when user wants to close
-//   - title: string — modal header title
-//   - children: ReactNode — the modal body content
 
 const Modal = ({ isOpen, onClose, title, children }) => {
-  // If modal is not open, render nothing (unmounts from DOM)
+
   if (!isOpen) return null;
 
   return (
-    // --- Backdrop ---
-    // This is the dark overlay behind the modal.
-    // onClick here closes the modal when clicking the backdrop.
+
     <div
       onClick={onClose}
       style={{
@@ -36,8 +20,8 @@ const Modal = ({ isOpen, onClose, title, children }) => {
         animation: "fadeIn 0.15s ease",
       }}
     >
-      {/* --- Modal Panel --- */}
-      {/* stopPropagation prevents clicks INSIDE the modal from closing it */}
+      {}
+      {}
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
@@ -54,7 +38,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
           animation: "slideUp 0.2s ease",
         }}
       >
-        {/* Modal Header */}
+        {}
         <div
           style={{
             display: "flex",
@@ -74,7 +58,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
           >
             {title}
           </h2>
-          {/* Close Button */}
+          {}
           <button
             onClick={onClose}
             style={{
@@ -97,13 +81,13 @@ const Modal = ({ isOpen, onClose, title, children }) => {
           </button>
         </div>
 
-        {/* Modal Body (scrollable) */}
+        {}
         <div style={{ padding: "24px", overflowY: "auto", flex: 1 }}>
           {children}
         </div>
       </div>
 
-      {/* Inline keyframe animations */}
+      {}
       <style>{`
         @keyframes fadeIn {
           from { opacity: 0; }

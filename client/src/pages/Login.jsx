@@ -1,6 +1,3 @@
-// pages/Login.jsx
-// The login page — the entry point for unauthenticated users.
-// A clean, centered form that calls the login API and stores the token.
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +5,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import api from "../api/axios.js";
 
 const Login = () => {
-  // --- Component State ---
+
   const [isRegisterMode, setIsRegisterMode] = useState(false); // Toggle between login/register
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
@@ -17,15 +14,12 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  // --- Handle Input Changes ---
-  // A single handler for all inputs using the 'name' attribute to identify the field.
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setError(""); // Clear error when user starts typing
   };
 
-  // --- Handle Form Submission ---
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default HTML form submission (page reload)
     setIsLoading(true);
@@ -37,24 +31,20 @@ const Login = () => {
         ? { name: formData.name, email: formData.email, password: formData.password }
         : { email: formData.email, password: formData.password };
 
-      // Make the API call using our pre-configured axios instance
       const response = await api.post(endpoint, payload);
       const { user, token } = response.data;
 
-      // Store user + token in context (and localStorage)
       login(user, token);
 
-      // Redirect to dashboard after successful login
       navigate("/dashboard");
     } catch (err) {
-      // Extract the error message from the API response, or use a fallback
+
       setError(err.response?.data?.message || "Something went wrong. Please try again.");
     } finally {
       setIsLoading(false); // Always reset loading state
     }
   };
 
-  // --- Reusable Input Style ---
   const inputStyle = {
     width: "100%",
     padding: "10px 14px",
@@ -79,7 +69,7 @@ const Login = () => {
         padding: "24px",
       }}
     >
-      {/* Card Container */}
+      {}
       <div
         style={{
           backgroundColor: "var(--color-surface)",
@@ -91,7 +81,7 @@ const Login = () => {
           boxShadow: "0 10px 40px rgba(0,0,0,0.08)",
         }}
       >
-        {/* Brand Header */}
+        {}
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
           <div
             style={{
@@ -128,7 +118,7 @@ const Login = () => {
           </p>
         </div>
 
-        {/* Error Alert */}
+        {}
         {error && (
           <div
             style={{
@@ -145,9 +135,9 @@ const Login = () => {
           </div>
         )}
 
-        {/* Login / Register Form */}
+        {}
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {/* Name field — only in register mode */}
+          {}
           {isRegisterMode && (
             <div>
               <label
@@ -175,7 +165,7 @@ const Login = () => {
             </div>
           )}
 
-          {/* Email */}
+          {}
           <div>
             <label
               style={{
@@ -201,7 +191,7 @@ const Login = () => {
             />
           </div>
 
-          {/* Password */}
+          {}
           <div>
             <label
               style={{
@@ -228,7 +218,7 @@ const Login = () => {
             />
           </div>
 
-          {/* Submit Button */}
+          {}
           <button
             type="submit"
             disabled={isLoading}
@@ -257,7 +247,7 @@ const Login = () => {
           </button>
         </form>
 
-        {/* Toggle between Login and Register */}
+        {}
         <div style={{ textAlign: "center", marginTop: "24px" }}>
           <span style={{ fontSize: "13px", color: "var(--color-text-muted)" }}>
             {isRegisterMode ? "Already have an account? " : "Don't have an account? "}
@@ -282,23 +272,7 @@ const Login = () => {
           </button>
         </div>
 
-        {/* Demo credentials hint */}
-        {!isRegisterMode && (
-          <div
-            style={{
-              marginTop: "20px",
-              padding: "12px",
-              backgroundColor: "var(--color-primary-light)",
-              borderRadius: "8px",
-              fontSize: "12px",
-              color: "var(--color-text-muted)",
-              textAlign: "center",
-            }}
-          >
-            <strong style={{ color: "var(--color-primary)" }}>Demo:</strong>{" "}
-            aria@starvnt.com / password123
-          </div>
-        )}
+
       </div>
     </div>
   );

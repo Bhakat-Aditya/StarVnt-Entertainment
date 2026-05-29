@@ -1,39 +1,23 @@
-// pages/Inquiries.jsx
-// Full Event Inquiry Management page.
-//
-// FEATURES:
-//  ✅ Filterable table by status (All / New / Contacted / Confirmed / Rejected)
-//  ✅ Click any row → opens detail modal
-//  ✅ Quick action buttons on row hover: ✓ Confirm | ✗ Reject
-//  ✅ Modal: View all details
-//  ✅ Modal: Edit mode — change client info, event details, message
-//  ✅ Modal: Status dropdown update
-//  ✅ Modal: Delete with confirmation step
-//  ✅ Mobile-friendly card layout on small screens
 
 import { useState, useEffect } from "react";
 import api from "../api/axios.js";
 import Badge from "../components/ui/Badge.jsx";
 import Modal from "../components/ui/Modal.jsx";
 
-// ── Shared constants ──────────────────────────────────────────────────────────
 const STATUS_OPTIONS = ["New", "Contacted", "Confirmed", "Rejected"];
 const EVENT_TYPES = [
   "Wedding", "Corporate", "Birthday", "Anniversary",
   "Fashion Show", "Conference", "Concert", "Other",
 ];
 
-// ── Helper: format ISO date to readable string ────────────────────────────────
 const formatDate = (dateString) =>
   new Date(dateString).toLocaleDateString("en-IN", {
     day: "numeric", month: "short", year: "numeric",
   });
 
-// Format date to YYYY-MM-DD for <input type="date"> value
 const toInputDate = (dateString) =>
   new Date(dateString).toISOString().split("T")[0];
 
-// ── Shared style objects ──────────────────────────────────────────────────────
 const inputStyle = {
   width: "100%",
   padding: "9px 12px",
@@ -57,34 +41,29 @@ const labelStyle = {
   marginBottom: "5px",
 };
 
-// ── Main Component ────────────────────────────────────────────────────────────
 const Inquiries = () => {
   const [inquiries, setInquiries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState("All");
 
-  // Modal state
   const [selectedInquiry, setSelectedInquiry] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState("view"); // "view" | "edit" | "delete"
 
-  // Async operation states
   const [isUpdating, setIsUpdating] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [editForm, setEditForm] = useState({});
   const [formError, setFormError] = useState("");
 
-  // ── Fetch all inquiries on mount ──────────────────────────────────────────
   useEffect(() => {
     const fetchInquiries = async () => {
       try {
         const { data } = await api.get("/inquiries");
-        
-        // Defensive check to avoid UI crash if API returns HTML
+
         if (!data || !data.inquiries) {
           throw new Error("Invalid API response. Proxy may have failed.");
         }
-        
+
         setInquiries(data.inquiries);
       } catch (err) {
         console.error("Failed to fetch inquiries:", err);
@@ -96,12 +75,11 @@ const Inquiries = () => {
     fetchInquiries();
   }, []);
 
-  // ── Open modal for a specific inquiry ─────────────────────────────────────
   const openModal = (inquiry, mode = "view") => {
     setSelectedInquiry(inquiry);
     setModalMode(mode);
     setFormError("");
-    // Pre-fill the edit form whenever we open
+
     setEditForm({
       clientName: inquiry.clientName || "",
       clientEmail: inquiry.clientEmail || "",
@@ -123,8 +101,6 @@ const Inquiries = () => {
     }, 200);
   };
 
-  // ── Update inquiry status (quick action) ──────────────────────────────────
-  // Used by the dropdown in the modal AND by the row hover buttons.
   const handleStatusUpdate = async (inquiryId, newStatus) => {
     setIsUpdating(true);
     try {
@@ -133,11 +109,10 @@ const Inquiries = () => {
       });
       const updated = data.inquiry;
 
-      // Optimistically update the list without a full refetch
       setInquiries((prev) =>
         prev.map((inq) => (inq._id === inquiryId ? updated : inq))
       );
-      // Also update the selected inquiry if modal is open
+
       if (selectedInquiry?._id === inquiryId) {
         setSelectedInquiry(updated);
         setEditForm((f) => ({ ...f, status: updated.status }));
@@ -150,7 +125,6 @@ const Inquiries = () => {
     }
   };
 
-  // ── Save full edit ────────────────────────────────────────────────────────
   const handleEditSave = async (e) => {
     e.preventDefault();
     setIsUpdating(true);
@@ -173,7 +147,6 @@ const Inquiries = () => {
     }
   };
 
-  // ── Save new inquiry ──────────────────────────────────────────────────────
   const handleCreateSave = async (e) => {
     e.preventDefault();
     setIsUpdating(true);
@@ -182,7 +155,6 @@ const Inquiries = () => {
       const { data } = await api.post("/inquiries/manual", editForm);
       const newInquiry = data.inquiry;
 
-      // Add to list and close modal
       setInquiries((prev) => [newInquiry, ...prev]);
       closeModal();
     } catch (error) {
@@ -194,13 +166,11 @@ const Inquiries = () => {
     }
   };
 
-  // ── Delete inquiry ────────────────────────────────────────────────────────
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
       await api.delete(`/inquiries/${selectedInquiry._id}`);
 
-      // Remove from local state — no refetch needed
       setInquiries((prev) =>
         prev.filter((inq) => inq._id !== selectedInquiry._id)
       );
@@ -212,7 +182,6 @@ const Inquiries = () => {
     }
   };
 
-  // ── Filtered list ─────────────────────────────────────────────────────────
   const filteredInquiries =
     filterStatus === "All"
       ? inquiries
@@ -223,7 +192,6 @@ const Inquiries = () => {
       ? inquiries.length
       : inquiries.filter((i) => i.status === status).length;
 
-  // ── Loading state ─────────────────────────────────────────────────────────
   if (isLoading) {
     return (
       <div
@@ -240,10 +208,9 @@ const Inquiries = () => {
     );
   }
 
-  // ── Render ────────────────────────────────────────────────────────────────
   return (
     <div style={{ maxWidth: "1100px" }}>
-      {/* Page header */}
+      {}
       <div style={{ marginBottom: "24px", display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px" }}>
         <div>
           <h2
@@ -289,7 +256,7 @@ const Inquiries = () => {
         </button>
       </div>
 
-      {/* Status filter tabs */}
+      {}
       <div
         style={{
           display: "flex",
@@ -329,7 +296,7 @@ const Inquiries = () => {
         ))}
       </div>
 
-      {/* Inquiries table */}
+      {}
       <div
         style={{
           backgroundColor: "var(--color-surface)",
@@ -353,7 +320,7 @@ const Inquiries = () => {
           </div>
         ) : (
           <>
-            {/* Table header — hidden on very small screens */}
+            {}
             <div
               className="inquiry-grid inquiry-header"
               style={{
@@ -369,7 +336,7 @@ const Inquiries = () => {
               <p style={{ fontSize: "11px", fontWeight: "600", color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.07em" }}>Actions</p>
             </div>
 
-            {/* Table rows */}
+            {}
             {filteredInquiries.map((inquiry, index) => (
               <InquiryRow
                 key={inquiry._id}
@@ -385,7 +352,7 @@ const Inquiries = () => {
         )}
       </div>
 
-      {/* ── Detail / Edit / Delete Modal ──────────────────────────────────── */}
+      {}
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
@@ -399,13 +366,13 @@ const Inquiries = () => {
             : "Inquiry Details"
         }
       >
-        {/* Render create mode even if selectedInquiry is null */}
+        {}
         {(selectedInquiry || modalMode === "create") && (
           <>
-            {/* ── VIEW MODE ─────────────────────────────────────────────── */}
+            {}
             {modalMode === "view" && (
               <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                {/* Client info */}
+                {}
                 <Section title="Client Information">
                   <DetailGrid>
                     <DetailItem label="Name" value={selectedInquiry.clientName} />
@@ -414,7 +381,7 @@ const Inquiries = () => {
                   </DetailGrid>
                 </Section>
 
-                {/* Event info */}
+                {}
                 <Section title="Event Details">
                   <DetailGrid>
                     <DetailItem label="Event Type" value={selectedInquiry.eventType || "—"} />
@@ -423,7 +390,7 @@ const Inquiries = () => {
                   </DetailGrid>
                 </Section>
 
-                {/* Message */}
+                {}
                 {selectedInquiry.message && (
                   <Section title="Message from Client">
                     <div
@@ -442,7 +409,7 @@ const Inquiries = () => {
                   </Section>
                 )}
 
-                {/* Status control */}
+                {}
                 <div
                   style={{
                     padding: "16px",
@@ -497,7 +464,7 @@ const Inquiries = () => {
                   </p>
                 )}
 
-                {/* Action buttons row */}
+                {}
                 <div
                   style={{
                     display: "flex",
@@ -520,7 +487,7 @@ const Inquiries = () => {
               </div>
             )}
 
-            {/* ── CREATE / EDIT MODE ─────────────────────────────────────────────── */}
+            {}
             {(modalMode === "edit" || modalMode === "create") && (
               <form onSubmit={modalMode === "create" ? handleCreateSave : handleEditSave}>
                 <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
@@ -550,7 +517,7 @@ const Inquiries = () => {
                     {modalMode === "create" ? "Enter Client & Event Information" : "Edit Client & Event Information"}
                   </p>
 
-                  {/* 2-column grid for fields */}
+                  {}
                   <div
                     style={{
                       display: "grid",
@@ -640,7 +607,7 @@ const Inquiries = () => {
                     </Field>
                   </div>
 
-                  {/* Message textarea — full width */}
+                  {}
                   <Field label="Message">
                     <textarea
                       rows={3}
@@ -654,7 +621,7 @@ const Inquiries = () => {
                     />
                   </Field>
 
-                  {/* Form actions */}
+                  {}
                   <div style={{ display: "flex", gap: "10px", paddingTop: "4px" }}>
                     <button
                       type="submit"
@@ -704,10 +671,10 @@ const Inquiries = () => {
               </form>
             )}
 
-            {/* ── DELETE CONFIRMATION MODE ───────────────────────────────── */}
+            {}
             {modalMode === "delete" && (
               <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                {/* Warning icon */}
+                {}
                 <div style={{ textAlign: "center", paddingTop: "8px" }}>
                   <div style={{ fontSize: "48px", marginBottom: "12px" }}>🗑️</div>
                   <h3
@@ -729,7 +696,7 @@ const Inquiries = () => {
                   </p>
                 </div>
 
-                {/* Summary of what's being deleted */}
+                {}
                 <div
                   style={{
                     padding: "14px 16px",
@@ -750,7 +717,7 @@ const Inquiries = () => {
                   </p>
                 </div>
 
-                {/* Confirm / Cancel buttons */}
+                {}
                 <div style={{ display: "flex", gap: "10px" }}>
                   <button
                     onClick={handleDelete}
@@ -799,8 +766,6 @@ const Inquiries = () => {
   );
 };
 
-// ── InquiryRow ─────────────────────────────────────────────────────────────────
-// A single row in the table. On hover, shows quick Confirm/Reject buttons.
 const InquiryRow = ({ inquiry, isLast, onOpen, onConfirm, onReject, isUpdating }) => {
   const [hovered, setHovered] = useState(false);
 
@@ -817,7 +782,7 @@ const InquiryRow = ({ inquiry, isLast, onOpen, onConfirm, onReject, isUpdating }
         backgroundColor: hovered ? "var(--color-surface-2)" : "transparent",
       }}
     >
-      {/* Client info — clicking row opens modal */}
+      {}
       <div
         onClick={onOpen}
         style={{ display: "flex", alignItems: "center", gap: "10px", minWidth: 0, width: "100%" }}
@@ -865,7 +830,7 @@ const InquiryRow = ({ inquiry, isLast, onOpen, onConfirm, onReject, isUpdating }
               {inquiry.clientEmail}
             </p>
           )}
-          {/* Mobile-only date & type that shows under the name */}
+          {}
           <p
             className="sm:hidden"
             style={{
@@ -879,7 +844,7 @@ const InquiryRow = ({ inquiry, isLast, onOpen, onConfirm, onReject, isUpdating }
         </div>
       </div>
 
-      {/* Event date - hidden on mobile */}
+      {}
       <p
         className="hide-on-mobile"
         onClick={onOpen}
@@ -888,7 +853,7 @@ const InquiryRow = ({ inquiry, isLast, onOpen, onConfirm, onReject, isUpdating }
         {formatDate(inquiry.eventDate)}
       </p>
 
-      {/* Event type - hidden on tablet and mobile */}
+      {}
       <p
         className="hide-on-tablet hide-on-mobile"
         onClick={onOpen}
@@ -903,14 +868,14 @@ const InquiryRow = ({ inquiry, isLast, onOpen, onConfirm, onReject, isUpdating }
         {inquiry.eventType || "—"}
       </p>
 
-      {/* Status badge */}
+      {}
       <div onClick={onOpen} className="mobile-status-float">
         <Badge status={inquiry.status} size="sm" />
       </div>
 
-      {/* Quick action buttons */}
+      {}
       <div className="inquiry-actions">
-        {/* Confirm button — only show if not already confirmed */}
+        {}
         {inquiry.status !== "Confirmed" && (
           <button
             title="Quick Confirm"
@@ -937,7 +902,7 @@ const InquiryRow = ({ inquiry, isLast, onOpen, onConfirm, onReject, isUpdating }
           </button>
         )}
 
-        {/* Reject button — only show if not already rejected */}
+        {}
         {inquiry.status !== "Rejected" && (
           <button
             title="Quick Reject"
@@ -964,7 +929,7 @@ const InquiryRow = ({ inquiry, isLast, onOpen, onConfirm, onReject, isUpdating }
           </button>
         )}
 
-        {/* Open detail */}
+        {}
         <button
           title="View Details"
           onClick={(e) => { e.stopPropagation(); onOpen(); }}
@@ -991,8 +956,6 @@ const InquiryRow = ({ inquiry, isLast, onOpen, onConfirm, onReject, isUpdating }
     </div>
   );
 };
-
-// ── Small helper components ────────────────────────────────────────────────────
 
 const Section = ({ title, children }) => (
   <section>

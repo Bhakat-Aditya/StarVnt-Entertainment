@@ -1,11 +1,3 @@
-// components/layout/Topbar.jsx
-// The top header bar displayed on every authenticated page.
-// On mobile it shows a hamburger / X button to toggle the sidebar drawer.
-//
-// Props (from AppLayout):
-//   onToggleSidebar — function called when the burger button is clicked
-//   sidebarOpen     — boolean, tells us whether to show ☰ or ✕
-//   isMobile        — boolean, controls whether the burger button renders at all
 
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -15,8 +7,6 @@ const pageTitles = {
   "/profile": "Vendor Profile",
   "/inquiries": "Inquiries",
 };
-
-// ── Icon components ──────────────────────────────────────────────────────────
 
 const SunIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -34,9 +24,6 @@ const MoonIcon = () => (
   </svg>
 );
 
-// Animated hamburger / X icon.
-// Three bars animate into an X when 'isOpen' is true.
-// We draw this with plain divs so it can transition smoothly with CSS.
 const HamburgerIcon = ({ isOpen }) => (
   <div
     style={{
@@ -48,7 +35,7 @@ const HamburgerIcon = ({ isOpen }) => (
       justifyContent: "space-between",
     }}
   >
-    {/* Top bar */}
+    {}
     <span
       style={{
         display: "block",
@@ -60,7 +47,7 @@ const HamburgerIcon = ({ isOpen }) => (
         transform: isOpen ? "translateY(6px) rotate(45deg)" : "none",
       }}
     />
-    {/* Middle bar — fades out when open */}
+    {}
     <span
       style={{
         display: "block",
@@ -71,7 +58,7 @@ const HamburgerIcon = ({ isOpen }) => (
         opacity: isOpen ? 0 : 1,
       }}
     />
-    {/* Bottom bar */}
+    {}
     <span
       style={{
         display: "block",
@@ -85,8 +72,6 @@ const HamburgerIcon = ({ isOpen }) => (
     />
   </div>
 );
-
-// ── Component ────────────────────────────────────────────────────────────────
 
 const Topbar = ({ onToggleSidebar, sidebarOpen, isMobile }) => {
   const location = useLocation();
@@ -107,7 +92,6 @@ const Topbar = ({ onToggleSidebar, sidebarOpen, isMobile }) => {
     }
   }, [isDark]);
 
-  // Shared icon-button style used for theme toggle + hamburger
   const iconBtn = {
     width: "36px",
     height: "36px",
@@ -139,9 +123,9 @@ const Topbar = ({ onToggleSidebar, sidebarOpen, isMobile }) => {
         zIndex: 39,   // below backdrop (40) and sidebar (50)
       }}
     >
-      {/* ── Left side: hamburger (mobile) + page title ── */}
+      {}
       <div style={{ display: "flex", alignItems: "center", gap: "12px", minWidth: 0 }}>
-        {/* Hamburger button — only visible on mobile */}
+        {}
         {isMobile && (
           <button
             onClick={onToggleSidebar}
@@ -153,7 +137,7 @@ const Topbar = ({ onToggleSidebar, sidebarOpen, isMobile }) => {
           </button>
         )}
 
-        {/* Page title + date */}
+        {}
         <div style={{ minWidth: 0 }}>
           <h1
             style={{
@@ -186,7 +170,7 @@ const Topbar = ({ onToggleSidebar, sidebarOpen, isMobile }) => {
         </div>
       </div>
 
-      {/* ── Right side: theme toggle ── */}
+      {}
       <button
         onClick={() => setIsDark(!isDark)}
         title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}

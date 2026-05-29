@@ -1,14 +1,9 @@
-// models/model.vendorProfile.js
-// Defines the VendorProfile schema.
-// Each vendor has exactly ONE profile, linked to their User account via a reference.
 
 import mongoose from "mongoose";
 
 const vendorProfileSchema = new mongoose.Schema(
   {
-    // --- Relationship to User ---
-    // 'ref: "User"' tells Mongoose this ObjectId points to the User collection.
-    // This enables .populate('user') to fetch the full User document in queries.
+
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -16,7 +11,6 @@ const vendorProfileSchema = new mongoose.Schema(
       unique: true, // One profile per user — enforced at DB level
     },
 
-    // --- Vendor Business Details ---
     vendorName: {
       type: String,
       required: [true, "Vendor name is required"],
@@ -26,7 +20,7 @@ const vendorProfileSchema = new mongoose.Schema(
     category: {
       type: String,
       trim: true,
-      // Examples: Photography, Catering, Venue, DJ, Florist
+
       default: "",
     },
     location: {
