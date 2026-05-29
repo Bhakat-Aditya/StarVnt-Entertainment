@@ -31,12 +31,27 @@ const app = express();
 // ============================================================
 
 // 1. CORS (Cross-Origin Resource Sharing)
-//    Allows the React frontend (running on port 5173) to make requests
-//    to this backend (running on port 5000). Without this, the browser blocks requests.
+// Allows production and local frontends to safely access this API.
+const allowedOrigins = [
+  process.env.CLIENT_URL, // Whitelist your live Vercel URL from environment variables
+  "http://localhost:5173"  // Whitelist your local Vite development environment
+];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: function (origin, callback) {
+      // Allow server-to-server testing tools, Postman, or requests with missing origin headers
+      if (!origin) return callback(null, true);
+      
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = "The CORS policy for this site does not allow access from the specified Origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
