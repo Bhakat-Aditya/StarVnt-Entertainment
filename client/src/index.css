@@ -1,0 +1,172 @@
+/*
+ * index.css — Global Styles for StarVnt
+ * ======================================
+ * Tailwind CSS v4 uses a single CSS import instead of config files.
+ * We also define CSS custom properties (variables) here for our design system.
+ * This gives us a single place to change the entire color palette.
+ */
+
+/* Import Google Font: Inter — must come BEFORE Tailwind's @import */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+/* Import Tailwind CSS v4 — this replaces @tailwind base/components/utilities */
+@import "tailwindcss";
+
+/* ============================================================
+   CSS Custom Properties (Design Tokens)
+   Defining light and dark theme variables
+   ============================================================ */
+:root {
+  /* Font */
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  /* Light Theme Colors */
+  --color-bg: #f8fafc;          /* slate-50 */
+  --color-surface: #ffffff;     /* white cards */
+  --color-surface-2: #f1f5f9;  /* slate-100 */
+  --color-border: #e2e8f0;     /* slate-200 */
+  --color-text: #0f172a;        /* slate-900 */
+  --color-text-muted: #64748b;  /* slate-500 */
+  --color-primary: #6366f1;     /* indigo-500 */
+  --color-primary-dark: #4f46e5; /* indigo-600 */
+  --color-primary-light: #e0e7ff; /* indigo-100 */
+
+  /* Status Colors */
+  --color-new: #06b6d4;         /* cyan-500 */
+  --color-contacted: #f59e0b;   /* amber-500 */
+  --color-confirmed: #10b981;   /* emerald-500 */
+  --color-rejected: #ef4444;    /* red-500 */
+
+  /* Sidebar */
+  --sidebar-width: 240px;
+}
+
+/* Dark Theme Variables */
+.dark {
+  --color-bg: #0f172a;          /* slate-900 */
+  --color-surface: #1e293b;     /* slate-800 */
+  --color-surface-2: #334155;   /* slate-700 */
+  --color-border: #334155;     /* slate-700 */
+  --color-text: #f1f5f9;        /* slate-100 */
+  --color-text-muted: #94a3b8;  /* slate-400 */
+  --color-primary: #818cf8;     /* indigo-400 */
+  --color-primary-dark: #6366f1; /* indigo-500 */
+  --color-primary-light: #1e1b4b; /* indigo-950 */
+}
+
+/* ============================================================
+   Base Reset & Global Styles
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+}
+
+/* Custom scrollbar for a premium feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface-2);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* ============================================================
+   Responsive Utilities for Tables
+   ============================================================ */
+
+/* Desktop layout (5 columns) */
+.inquiry-grid {
+  display: grid;
+  grid-template-columns: 1fr 120px 110px 110px 100px;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Actions wrapper for hover state */
+.inquiry-actions {
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+
+/* Row hover reveals actions (desktop only) */
+.inquiry-row-wrapper:hover .inquiry-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Tablet Layout (Hide Type) */
+@media (max-width: 850px) {
+  .inquiry-grid {
+    grid-template-columns: 1fr 110px 100px 90px;
+  }
+  .hide-on-tablet {
+    display: none !important;
+  }
+}
+
+/* Mobile Layout (Card Style) */
+@media (max-width: 640px) {
+  .inquiry-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    padding: 16px !important;
+  }
+  
+  /* Hide headers on mobile */
+  .inquiry-header {
+    display: none !important;
+  }
+
+  .hide-on-mobile {
+    display: none !important;
+  }
+
+  /* Make status badge float top right */
+  .mobile-status-float {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
+
+  /* Actions always visible on mobile, aligned to bottom right */
+  .inquiry-actions {
+    opacity: 1;
+    pointer-events: auto;
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--color-border);
+  }
+}
+
