@@ -1,65 +1,95 @@
 /*
- * index.css — Global Styles for StarVnt
- * ======================================
- * Tailwind CSS v4 uses a single CSS import instead of config files.
- * We also define CSS custom properties (variables) here for our design system.
- * This gives us a single place to change the entire color palette.
+ * index.css — StarVnt Design System v2.0
+ * =========================================
+ * Production-ready SaaS dark-first design system.
+ * All animations, tokens, and utilities defined here.
  */
 
-/* Import Google Font: Inter — must come BEFORE Tailwind's @import */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
-
-/* Import Tailwind CSS v4 — this replaces @tailwind base/components/utilities */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 
 /* ============================================================
-   CSS Custom Properties (Design Tokens)
-   Defining light and dark theme variables
+   CSS Custom Properties — Design Tokens
    ============================================================ */
 :root {
-  /* Font */
-  --font-sans: "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
 
-  /* Light Theme Colors */
-  --color-bg: #f8fafc;          /* slate-50 */
-  --color-surface: #ffffff;     /* white cards */
-  --color-surface-2: #f1f5f9;  /* slate-100 */
-  --color-border: #e2e8f0;     /* slate-200 */
-  --color-text: #0f172a;        /* slate-900 */
-  --color-text-muted: #64748b;  /* slate-500 */
-  --color-primary: #6366f1;     /* indigo-500 */
-  --color-primary-dark: #4f46e5; /* indigo-600 */
-  --color-primary-light: #e0e7ff; /* indigo-100 */
+  /* Light Theme */
+  --color-bg: #f4f6fb;
+  --color-surface: #ffffff;
+  --color-surface-2: #f1f5f9;
+  --color-surface-3: #e8edf5;
+  --color-border: #e2e8f0;
+  --color-border-subtle: #f1f5f9;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-text-subtle: #94a3b8;
+  --color-primary: #6366f1;
+  --color-primary-dark: #4f46e5;
+  --color-primary-light: #eef2ff;
+  --color-primary-glow: rgba(99, 102, 241, 0.15);
 
-  /* Status Colors */
-  --color-new: #06b6d4;         /* cyan-500 */
-  --color-contacted: #f59e0b;   /* amber-500 */
-  --color-confirmed: #10b981;   /* emerald-500 */
-  --color-rejected: #ef4444;    /* red-500 */
+  /* Status */
+  --color-new: #06b6d4;
+  --color-new-bg: rgba(6, 182, 212, 0.1);
+  --color-contacted: #f59e0b;
+  --color-contacted-bg: rgba(245, 158, 11, 0.1);
+  --color-confirmed: #10b981;
+  --color-confirmed-bg: rgba(16, 185, 129, 0.1);
+  --color-rejected: #ef4444;
+  --color-rejected-bg: rgba(239, 68, 68, 0.1);
 
-  /* Sidebar */
-  --sidebar-width: 240px;
+  /* Layout */
+  --sidebar-width: 256px;
+  --topbar-height: 64px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.05);
+  --shadow-xl: 0 24px 60px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.06);
+  --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.2);
 }
 
-/* Dark Theme Variables */
+/* Dark Theme */
 .dark {
-  --color-bg: #0f172a;          /* slate-900 */
-  --color-surface: #1e293b;     /* slate-800 */
-  --color-surface-2: #334155;   /* slate-700 */
-  --color-border: #334155;     /* slate-700 */
-  --color-text: #f1f5f9;        /* slate-100 */
-  --color-text-muted: #94a3b8;  /* slate-400 */
-  --color-primary: #818cf8;     /* indigo-400 */
-  --color-primary-dark: #6366f1; /* indigo-500 */
-  --color-primary-light: #1e1b4b; /* indigo-950 */
+  --color-bg: #080c14;
+  --color-surface: #0f1623;
+  --color-surface-2: #141d2e;
+  --color-surface-3: #1a2540;
+  --color-border: #1e2d45;
+  --color-border-subtle: #172236;
+  --color-text: #e8edf5;
+  --color-text-muted: #7b8fa6;
+  --color-text-subtle: #4a6080;
+  --color-primary: #818cf8;
+  --color-primary-dark: #6366f1;
+  --color-primary-light: rgba(129, 140, 248, 0.1);
+  --color-primary-glow: rgba(129, 140, 248, 0.2);
+
+  --color-new: #22d3ee;
+  --color-new-bg: rgba(34, 211, 238, 0.08);
+  --color-contacted: #fbbf24;
+  --color-contacted-bg: rgba(251, 191, 36, 0.08);
+  --color-confirmed: #34d399;
+  --color-confirmed-bg: rgba(52, 211, 153, 0.08);
+  --color-rejected: #f87171;
+  --color-rejected-bg: rgba(248, 113, 113, 0.08);
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.3);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3);
+  --shadow-xl: 0 24px 60px rgba(0,0,0,0.6), 0 8px 20px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 40px rgba(129, 140, 248, 0.15);
 }
 
 /* ============================================================
-   Base Reset & Global Styles
+   Base Reset
    ============================================================ */
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -68,6 +98,8 @@
 html {
   font-family: var(--font-sans);
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -79,35 +111,145 @@ body {
   min-height: 100vh;
 }
 
-/* Custom scrollbar for a premium feel */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+/* ============================================================
+   Custom Scrollbar
+   ============================================================ */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-subtle); }
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+/* Fade + slide up — page entry */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-::-webkit-scrollbar-track {
-  background: var(--color-surface-2);
+
+/* Fade in only */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
-::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 3px;
+
+/* Scale in */
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
 }
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-muted);
+
+/* Slide in from left (sidebar) */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Shimmer skeleton loading */
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+/* Spin (refresh button) */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Pulse glow (live indicator) */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99,102,241,0.4); }
+  50%       { box-shadow: 0 0 0 6px rgba(99,102,241,0); }
+}
+
+/* Pulse dot (New status) */
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.4); opacity: 0.6; }
+}
+
+/* Counter number roll */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Gradient border shimmer */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Float */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
 }
 
 /* ============================================================
-   Responsive Utilities for Tables
+   Animation Utility Classes
    ============================================================ */
+.anim-fade-in-up { animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-fade-in    { animation: fadeIn 0.3s ease both; }
+.anim-scale-in   { animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
-/* Desktop layout (5 columns) */
-.inquiry-grid {
-  display: grid;
-  grid-template-columns: 1fr 120px 110px 110px 100px;
-  align-items: center;
-  gap: 10px;
+/* Staggered children delays */
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 60ms; }
+.stagger > *:nth-child(3) { animation-delay: 120ms; }
+.stagger > *:nth-child(4) { animation-delay: 180ms; }
+.stagger > *:nth-child(5) { animation-delay: 240ms; }
+
+/* Skeleton loading */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-2) 0px,
+    var(--color-surface-3) 300px,
+    var(--color-surface-2) 600px
+  );
+  background-size: 1200px 100%;
+  animation: shimmer 1.6s infinite linear;
+  border-radius: var(--radius);
 }
 
-/* Actions wrapper for hover state */
+/* Spinning refresh icon */
+.spin { animation: spin 0.7s linear infinite; }
+
+/* Live dot indicator */
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  animation: pulseDot 1.5s ease infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* New status pulse */
+.badge-new-pulse::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  animation: pulseGlow 2s ease infinite;
+}
+
+/* ============================================================
+   Inquiry Table Layout
+   ============================================================ */
+.inquiry-grid {
+  display: grid;
+  grid-template-columns: 1fr 130px 120px 120px 110px;
+  align-items: center;
+  gap: 12px;
+}
+
 .inquiry-actions {
   display: flex;
   gap: 6px;
@@ -116,23 +258,18 @@ body {
   pointer-events: none;
 }
 
-/* Row hover reveals actions (desktop only) */
 .inquiry-row-wrapper:hover .inquiry-actions {
   opacity: 1;
   pointer-events: auto;
 }
 
-/* Tablet Layout (Hide Type) */
-@media (max-width: 850px) {
-  .inquiry-grid {
-    grid-template-columns: 1fr 110px 100px 90px;
-  }
-  .hide-on-tablet {
-    display: none !important;
-  }
+/* Tablet */
+@media (max-width: 900px) {
+  .inquiry-grid { grid-template-columns: 1fr 110px 110px 100px; }
+  .hide-on-tablet { display: none !important; }
 }
 
-/* Mobile Layout (Card Style) */
+/* Mobile */
 @media (max-width: 640px) {
   .inquiry-grid {
     display: flex;
@@ -141,24 +278,9 @@ body {
     position: relative;
     padding: 16px !important;
   }
-  
-  /* Hide headers on mobile */
-  .inquiry-header {
-    display: none !important;
-  }
-
-  .hide-on-mobile {
-    display: none !important;
-  }
-
-  /* Make status badge float top right */
-  .mobile-status-float {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-  }
-
-  /* Actions always visible on mobile, aligned to bottom right */
+  .inquiry-header { display: none !important; }
+  .hide-on-mobile { display: none !important; }
+  .mobile-status-float { position: absolute; top: 16px; right: 16px; }
   .inquiry-actions {
     opacity: 1;
     pointer-events: auto;
@@ -170,3 +292,39 @@ body {
   }
 }
 
+/* ============================================================
+   Glass Card
+   ============================================================ */
+.glass-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.glass-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* ============================================================
+   Gradient Text
+   ============================================================ */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-primary), #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================================
+   Interactive Row
+   ============================================================ */
+.interactive-row {
+  transition: background-color 0.15s ease;
+  cursor: pointer;
+}
+.interactive-row:hover {
+  background-color: var(--color-surface-2);
+}

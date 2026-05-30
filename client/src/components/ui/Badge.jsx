@@ -1,61 +1,71 @@
-
-const statusStyles = {
+const statusConfig = {
   New: {
-    bg: "rgba(6, 182, 212, 0.12)",      // cyan with transparency
-    color: "#0891b2",                    // cyan-600
-    dot: "#06b6d4",                      // cyan-500
+    bg: "var(--color-new-bg)",
+    color: "var(--color-new)",
+    dot: "var(--color-new)",
+    label: "New",
+    pulse: true,
   },
   Contacted: {
-    bg: "rgba(245, 158, 11, 0.12)",     // amber with transparency
-    color: "#d97706",                    // amber-600
-    dot: "#f59e0b",                      // amber-500
+    bg: "var(--color-contacted-bg)",
+    color: "var(--color-contacted)",
+    dot: "var(--color-contacted)",
+    label: "Contacted",
+    pulse: false,
   },
   Confirmed: {
-    bg: "rgba(16, 185, 129, 0.12)",     // emerald with transparency
-    color: "#059669",                    // emerald-600
-    dot: "#10b981",                      // emerald-500
+    bg: "var(--color-confirmed-bg)",
+    color: "var(--color-confirmed)",
+    dot: "var(--color-confirmed)",
+    label: "Confirmed",
+    pulse: false,
   },
   Rejected: {
-    bg: "rgba(239, 68, 68, 0.12)",      // red with transparency
-    color: "#dc2626",                    // red-600
-    dot: "#ef4444",                      // red-500
+    bg: "var(--color-rejected-bg)",
+    color: "var(--color-rejected)",
+    dot: "var(--color-rejected)",
+    label: "Rejected",
+    pulse: false,
   },
 };
 
 const Badge = ({ status, size = "md" }) => {
+  const cfg = statusConfig[status] || statusConfig.New;
 
-  const styles = statusStyles[status] || statusStyles["New"];
-
-  const padding = size === "sm" ? "3px 8px" : "4px 10px";
-  const fontSize = size === "sm" ? "11px" : "12px";
+  const padding    = size === "sm" ? "3px 9px"  : "4px 12px";
+  const fontSize   = size === "sm" ? "11px"      : "12px";
+  const dotSize    = size === "sm" ? "5px"       : "6px";
 
   return (
     <span
       style={{
         display: "inline-flex",
         alignItems: "center",
-        gap: "5px",
+        gap: "6px",
         padding,
-        borderRadius: "9999px",       // Makes it a full pill shape
-        backgroundColor: styles.bg,
-        color: styles.color,
+        borderRadius: "9999px",
+        backgroundColor: cfg.bg,
+        color: cfg.color,
         fontSize,
-        fontWeight: "600",
+        fontWeight: "700",
         whiteSpace: "nowrap",
-        letterSpacing: "0.01em",
+        letterSpacing: "0.02em",
+        border: `1px solid ${cfg.color}28`,
+        position: "relative",
       }}
     >
-      {}
+      {/* Animated pulse dot */}
       <span
         style={{
-          width: "6px",
-          height: "6px",
+          width: dotSize,
+          height: dotSize,
           borderRadius: "50%",
-          backgroundColor: styles.dot,
+          backgroundColor: cfg.dot,
           flexShrink: 0,
+          animation: cfg.pulse ? "pulseDot 1.8s ease infinite" : "none",
         }}
       />
-      {status}
+      {cfg.label}
     </span>
   );
 };

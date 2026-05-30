@@ -1,0 +1,10 @@
+# Root-level gitignore
+# Catches anything not covered by client/ or server/ gitignores
+
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.local
+.env.production

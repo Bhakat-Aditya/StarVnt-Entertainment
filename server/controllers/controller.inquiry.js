@@ -181,9 +181,26 @@ export const createInquiry = async (req, res) => {
     const { vendorId, clientName, clientEmail, clientPhone, eventDate, eventType, message } =
       req.body;
 
+    // Validate required fields
+    if (!vendorId) {
+      return res.status(400).json({ success: false, message: "Please select a vendor." });
+    }
+    if (!clientName || clientName.trim() === "") {
+      return res.status(400).json({ success: false, message: "Client name is required." });
+    }
+    if (!eventDate) {
+      return res.status(400).json({ success: false, message: "Event date is required." });
+    }
+
+    // Ensure the vendor profile exists before creating the inquiry
+    const vendorExists = await VendorProfile.findById(vendorId);
+    if (!vendorExists) {
+      return res.status(404).json({ success: false, message: "Selected vendor not found." });
+    }
+
     const inquiry = await Inquiry.create({
       vendor: vendorId,
-      clientName,
+      clientName: clientName.trim(),
       clientEmail,
       clientPhone,
       eventDate,
@@ -197,6 +214,7 @@ export const createInquiry = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error." });
   }
 };
+
 
 export const createInquiryManual = async (req, res) => {
   try {

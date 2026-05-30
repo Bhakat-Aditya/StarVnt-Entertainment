@@ -14,17 +14,21 @@ connectDB();
 
 const app = express();
 
+// Build the CORS whitelist from environment — add your Vercel URL as CLIENT_URL on Render
 const allowedOrigins = [
-  process.env.CLIENT_URL, // Whitelist your live Vercel URL from environment variables
-  "http://localhost:5173"  // Whitelist your local Vite development environment
-];
+  process.env.CLIENT_URL,              // e.g. https://starvnt-entertainment.vercel.app
+  "https://starvnt-entertainment.vercel.app", // fallback if env var not yet set
+  "http://localhost:5173",             // local Vite dev server
+].filter(Boolean); // remove undefined entries
 
 app.use(
   cors({
-    origin: [
-      "https://starvnt-entertainment.vercel.app", // No trailing slashes
-      "http://localhost:5173"
-    ],
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g. mobile apps, Postman, Render health checks)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      callback(new Error(`CORS: origin '${origin}' not allowed`));
+    },
     credentials: true,
   })
 );

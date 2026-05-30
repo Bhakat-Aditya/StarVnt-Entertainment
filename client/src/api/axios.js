@@ -2,8 +2,9 @@
 import axios from "axios";
 
 const api = axios.create({
-
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000",
+  // In local dev: use relative '/api' path — Vite's proxy rewrites it to http://localhost:5000/api
+  // In production: VITE_API_URL is the full Render/Railway backend URL (e.g. https://starvnt-api.onrender.com/api)
+  baseURL: import.meta.env.VITE_API_URL || "/api",
   headers: {
     "Content-Type": "application/json",
   },

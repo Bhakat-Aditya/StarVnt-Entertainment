@@ -48,3 +48,23 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error." });
   }
 };
+
+/**
+ * GET /api/vendors/public
+ * Public route — no authentication required.
+ * Returns a list of all vendor profiles for the public inquiry submission form.
+ * Only exposes safe, non-sensitive fields: vendorName, category, location, _id.
+ */
+export const getPublicVendors = async (req, res) => {
+  try {
+    const vendors = await VendorProfile.find(
+      { vendorName: { $ne: "" } }, // Only return vendors with a name set
+      "_id vendorName category location" // Project only safe public fields
+    ).sort({ vendorName: 1 });
+
+    res.status(200).json({ success: true, vendors });
+  } catch (error) {
+    console.error("Get Public Vendors Error:", error);
+    res.status(500).json({ success: false, message: "Server error." });
+  }
+};
